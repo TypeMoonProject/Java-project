@@ -81,7 +81,6 @@ inner.printOuterStaticVariable(); // 输出: Outer static variable: 42
 }
 ```
 在上述代码中，`StaticInnerClass`是静态内部类，可以访问外部类的静态变量。
-
 通过理解和使用`static`关键字，可以在 Java 编程中更高效地管理类的成员和方法，提高代码的可读性和性能。  
 ### 单例模式
 ```Java
@@ -119,5 +118,36 @@ public class Test {
         System.out.println(a==b);//false
         System.out.println(b==c);//true（自动拆箱）
     }
+}
+```
+### 抽象类与接口
+#### 抽象类
+抽象类需要写出`abstract`且抽象函数也需要写出`abstract`，可以没有抽象函数，可以全是抽象函数。不能实例化，只能继承。在继承的子类全部实现父类的抽象方法前，子类仍为抽象类，不能实例化。
+```Java
+public abstract class Example{//可以没有抽象函数，可以全是抽象函数
+    public abstract int f();
+    public int g(){
+        ;
+    }
+}
+```
+先继承再实现借口。
+```java
+public B extends Example implements Example{
+    ;
+}
+```
+#### 接口
+接口不需要写`abstract`且其中函数全为抽象函数（不需写`abstract`），其属性全为常量`public static final`。在继承的子类全部实现接口的抽象方法前，子类为抽象类，不能实例化。 
+```Java
+public interface class Example{
+    int a=1;//等效于public static final int a=1;
+    public int f();
+}
+```
+一个类可以实现多个接口
+```java
+public class A implements B,C{
+    ;
 }
 ```
