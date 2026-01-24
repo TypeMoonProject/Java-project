@@ -29,5 +29,12 @@ class InternEmployee extends Employee {
     public boolean judge() {
         return workingHours<160;
     }
+
+    public void printEmployeeInfo() {
+        System.out.println("Name: " + getName());
+        System.out.println("Type: " + this.getClass().getSimpleName());
+        System.out.println("Hourly Rate: " + hourlyRate);
+        System.out.println("Working Hours: " + workingHours);
+    }
 }
 

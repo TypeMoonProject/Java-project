@@ -1,5 +1,5 @@
 ### 运行结果
-![](./photo/01.png)
+![](./photo/02.png)
 ### 问题回答
 #### 3. 本系统中是如何体现  
 请分别结合代码说明：  
@@ -84,7 +84,5 @@ TODO：思考 name 为什么是 private？
 防止name被外部类直接访问  
 TODO：是否需要提供 getter / setter？  
 需要getter来获取name，不需要setter修改name  
-TODO：是否需要重写 printEmployeeInfo？  
-不需要，该方法在父类中已经实现，且适用于该类
 TODO：baseSalary 和 salesAmount 是否应该直接暴露？  
 不应该，可能会被修改
