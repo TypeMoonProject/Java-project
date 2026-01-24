@@ -1,0 +1,33 @@
+package boss;
+/**
+ * 实习生
+ * 工资 = hourlyRate * workingHours
+ */
+class InternEmployee extends Employee {
+
+    private double hourlyRate;
+    private int workingHours;
+
+    public InternEmployee(String name, double hourlyRate, int workingHours) {
+        super(name);
+        this.hourlyRate = hourlyRate;
+        this.workingHours = workingHours;
+    }
+
+    // TODO：补全实习生的工资计算逻辑
+    @Override
+    public double calculateSalary() {
+        // TODO
+        double re = 0;
+        if(judge()){
+            re = hourlyRate * (double)workingHours;
+        }
+        return re;
+    }
+
+    // TODO：workingHours 是否需要校验（如不能超过 160）？
+    public boolean judge() {
+        return workingHours<160;
+    }
+}
+
