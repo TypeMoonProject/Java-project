@@ -10,18 +10,18 @@ class SalesEmployee extends Employee {
         this.salesAmount = salesAmount;
     }
 
-    // TODO：补全销售员工的工资计算逻辑
+    // 补全销售员工的工资计算逻辑
     // 提示：提成比例可自定义，如 5%
     private double commissionRate = 0.05;
     @Override
     public double calculateSalary() {
-        // TODO
+        //
         double re = 0;
         re = baseSalary + salesAmount * commissionRate;
         return re;
     }
 
-    // TODO：是否需要重写 printEmployeeInfo？
+    // 
     public void printEmployeeInfo() {
         System.out.println("Name: " + getName());
         System.out.println("Type: " + this.getClass().getSimpleName());
@@ -29,6 +29,6 @@ class SalesEmployee extends Employee {
         System.out.println("Sales Amount: " + salesAmount);
         System.out.println("Commission Rate: " + commissionRate);
     }
-    // TODO：baseSalary 和 salesAmount 是否应该直接暴露？
+    // 
     // 不应该，防止数据被修改
 }

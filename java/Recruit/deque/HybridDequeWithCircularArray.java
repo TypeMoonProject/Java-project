@@ -39,19 +39,19 @@ public class HybridDequeWithCircularArray<E> {
     // ========= 需要你实现：对外操作 =========
 
     public void addFirst(E x) {
-        // TODO: 插到链表头，然后 rebalance
+        // 
         listAddFirst(x);
         rebalance();
     }
 
     public void addLast(E x) {
-        // TODO: 插到数组尾，然后 rebalance
+        // 
         arrayAddLast(x);
         rebalance();
     }
 
     public E removeFirst() {
-        // TODO: 空抛异常；优先删链表头，否则删数组头；rebalance
+        // 
         E re=null;
         if(isEmpty()){
             throw new NoSuchElementException("empty");
@@ -65,7 +65,7 @@ public class HybridDequeWithCircularArray<E> {
     }
 
     public E removeLast() {
-        // TODO: 空抛异常；优先删数组尾，否则删链表尾；rebalance
+        // 
         E re=null;
         if(isEmpty()){
             throw new NoSuchElementException("empty");
@@ -79,7 +79,7 @@ public class HybridDequeWithCircularArray<E> {
     }
 
     public E peekFirst() {
-        // TODO: 空返回 null；优先看链表头，否则看数组头
+        // 
         E re = null;
         if(frontSize != 0) {
             re = head.next.val;
@@ -90,7 +90,7 @@ public class HybridDequeWithCircularArray<E> {
     }
 
     public E peekLast() {
-        // TODO: 空返回 null；优先看数组尾，否则看链表尾
+        // 
         E re = null;
         if(backSize != 0) {
             re = arrayGet((rear + arr.length - 1) % arr.length);
@@ -102,7 +102,7 @@ public class HybridDequeWithCircularArray<E> {
 
     // ========= 需要你实现：rebalance =========
     private void rebalance() {
-        // TODO: 保证 |frontSize - backSize| <= 1
+        // 
         // frontSize > backSize + 1: move one from list tail -> array head
         // backSize > frontSize + 1: move one from array head -> list tail
         if(frontSize > backSize + 1) {

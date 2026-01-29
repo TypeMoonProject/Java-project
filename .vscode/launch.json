@@ -6,6 +6,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Sort",
+            "request": "launch",
+            "mainClass": "order.Sort",
+            "projectName": "Java-project_8ab571bd"
+        },
+        {
+            "type": "java",
+            "name": "OrderSorter",
+            "request": "launch",
+            "mainClass": "order.OrderSorter",
+            "projectName": "Java-project_8ab571bd"
+        },
+        {
+            "type": "java",
+            "name": "EmployeeManagementSystem",
+            "request": "launch",
+            "mainClass": "boss.EmployeeManagementSystem",
+            "projectName": "Java-project_8ab571bd"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "deque.Test",
+            "projectName": "Java-project_8ab571bd"
+        },
+        {
+            "type": "java",
+            "name": "HybridDeque",
+            "request": "launch",
+            "mainClass": "HybridDeque",
+            "projectName": "Java-project_8ab571bd"
+        },
+        {
+            "type": "java",
             "name": "Test",
             "request": "launch",
             "mainClass": "Test",

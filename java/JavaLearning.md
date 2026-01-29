@@ -1,4 +1,4 @@
-### 信息隐藏原则  
+### 信息隐藏原则（封装）  
 通常隐藏类的属性`private`，而公开类的方法`public`，其他类只能通过方法间接获得该类的属性。  
 ```Java
 public class Try{
@@ -108,7 +108,8 @@ public class Single{
 |short|Short|
 |byte|Byte|  
 
-其中Boolean、Character、Integer、Long、Short拥有常量池，其相同值的指针相等，而Double、Float没有常量池，相同值对应指针不同。包装类使基本类型成为对象。
+其中Boolean、Character（字母、符号常量池）、Integer、Long、Short拥有常量池，其相同值的指针相等，而Character（汉字）、Double、Float没有常量池，相同值对应指针不同。包装类使基本类型成为对象。  
+基本类型传入函数时复制值，包装类传入时传入指针（传入类、数组、字符串即传入指针）。
 ```Java
 public class Test {
     public static void main(String[] args){
@@ -116,10 +117,51 @@ public class Test {
         Character b='我';
         char c='我';
         System.out.println(a==b);//false
-        System.out.println(b==c);//true（自动拆箱）
+        System.out.println(b==c);//true（自动拆包）
     }
 }
 ```
+其中，对于String，存在常量池缓存与优化机制，仅允许String进行拼接，且存入缓存常量池，但仅有常量相加时优化。
+```java
+public class Test {
+    public static void main(String[] args){
+        String a="我是";
+        String b="我"+"是";
+        String c="我";
+        String d=c+"是";//变量c+常量"是"
+        System.out.println(a==b);//true
+        System.out.println(d==a);//false
+    }
+}
+```
+基本类型的包装类和字符串有两种不同的创建方式，两种方式放置位置不同。
+```java
+Integer a=10;//放在栈中，常量化（存入常量池）
+Integer a=new Integer(10);//放在堆中，不会常量化，但此方式在java9以后被弃用
+```
+包装类与基本类型比较、运算，或包装类进行运算会自动拆包（在强制需要内部值的地方自动拆包）。  
+```Java
+Integer a=10;
+Integer b=10;
+int c=10;
+a+b;//20
+a+c;//20
+a==b;//true
+a==c;//true
+```
+### 不可变对象
+包装类为不可变对象，更改为指针指向新的对象，而旧对象依旧存在。不可变对象线程安全、并发读写性能高、可重复使用但是会使用较多内存。  
+```java
+public class Try{
+    public static void main(String[] args){
+        String a="ab";
+        String b=a;
+        b="de";
+        System.out.println(a==b);//false
+    }
+}
+```
+故而`String a=b+"def"`效率低，占用内存使用`StringBuffer`（同步、线程安全）、`StringBuilder`（不同步、线程不安全、更快速）的`append`方法修改，这样可以原地修改，而非指向另一块内存。
 ### 抽象类与接口
 #### 抽象类
 抽象类需要写出`abstract`且抽象函数也需要写出`abstract`，可以没有抽象函数，可以全是抽象函数。不能实例化，只能继承。在继承的子类全部实现父类的抽象方法前，子类仍为抽象类，不能实例化。
@@ -131,7 +173,7 @@ public abstract class Example{//可以没有抽象函数，可以全是抽象函
     }
 }
 ```
-先继承再实现借口。
+先继承再实现接口。
 ```java
 public B extends Example implements Example{
     ;
@@ -151,3 +193,76 @@ public class A implements B,C{
     ;
 }
 ```
+### Array
+数组在初始化时不能确定内存，即为null指针
+```java
+int[2] arr;//错误
+int arr[2];//错误
+int[] arr = new int[2];//元素默认为0
+int[] arr = new int[]{1,2}//初始化并赋值
+```
+1. 规则数组  
+   规则数组即每个子数组（行数列）的元素数量相等
+```java
+int[] arr = new int[3][4];
+```
+2. 不规则数组
+   每个子数列的元素数量不相等
+```java
+int[] arr = new int[3][];
+int arr[0] = new int[2];
+int arr[1] = new int[3];
+int arr[2] = new int[4];
+arr.length;//获取大小
+```
+### Collection(JCF)
+java collection框架，需指定泛型，collection是List、set的父类   
+基本方法
+```java
+add(e)//将给定的对象添加到当前集合中。
+clear()//清空集合中所有的元素。
+remove(e)//从当前集合中删除给定的对象。
+contains(e)//判断当前集合中是否包含给定的对象。
+isEmpty()//判断当前集合是否为空。
+size()//返回集合中元素的个数。
+toArray()//将集合中的元素存储到数组中。
+get(index)//仅List有，取得index元素
+```
+#### List
+##### ArrayList
+以动态数组形式实现的列表，在充满后会自动扩充至之前的1.5倍，不支持同步，可以使用索引，不适合指定位置的插入、删除。建议使用for-index、for-each循环遍历，迭代器（顺序访问）遍历较慢。
+```java
+ArrayList<Integer> arr = new ArrayList<>();//可填初始大小，可不填
+arr.add(1);//依次加入1
+arr.add(1,3);//在index=1处加入3，其余依次后移
+arr.remove(1);//去除index=1的元素，其余依次前移
+arr.get(0);//取得index=0的元素（不删除），不能直接使用arr[0]
+arr.size();//获取大小
+```
+##### LinkedList
+以双向链表形式实现的列表，不支持同步，可以使用索引，可以被当作队列、双端队列、堆栈使用，头尾访问、插入、删除高效，随机访问较差，适用于经常变化的数据。建议使用for-each、迭代器（顺序访问）循环遍历，for-index较慢。
+```java
+LinkedList<Integer> arr = new LinkedList<>();
+```
+##### 比较
+1. `arr.add(index,num)`ArrayList之后元素都会后移，发生大面积的数据移动，LinkedList仅添加所需元素。
+2. `arr.get(index)`ArrayList表现优于LinkedList。
+3. `arr.remove(index)`ArrayList之后元素都会前移，发生大面积的数据移动，LinkedList仅删除元素。
+4. ArrayList适用于较多查询的数据，LinkedList适合频繁修改的数据。
+##### Vector
+一个动态数组，支持同步
+```java
+Vector();//创建一个默认大小为10的向量
+Vector(int size);//创建一个指定大小的向量
+Vector(int size, int incr);//创建一个指定大小和增量的向量，充满时每次增加incr
+Vector(Collection c);//创建一个包含给定集合元素的向量
+```
+在前三种遍历方法之后，还可以使用Enumeration遍历，四种方法效率相差不大，但建议for的两种。
+#### Set
+##### HashSet
+##### LinkedHashSet
+##### TreeSet
+#### Queue
+### Map
+### java类库
+#### 数字类
